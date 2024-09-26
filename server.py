@@ -1,4 +1,3 @@
-
 import socket
 import threading
 from datetime import datetime
@@ -17,9 +16,6 @@ sock.bind(server_address)
 # Écoute des connexions entrantes
 sock.listen(1)
 
-# thread pour gerer les connexions
-threading.Thread(target=new_client,args=(sock,)).start()
-
 # Fonction exécutée pour la connexion des clients
 def new_client(sock):
 	while True:
@@ -31,6 +27,9 @@ def new_client(sock):
 		print(client_address,pseudotamp, 'is connected.')
 		threading.Thread(target=receive_data,args=(connection, client_address, pseudo.decode())).start()
 		clients.append(connection)
+
+# thread pour gerer les connexions
+threading.Thread(target=new_client,args=(sock,)).start()
 
 		
 # fonction exécutée pour recevoir les messages
@@ -44,9 +43,3 @@ def receive_data(connection, address, pseudo):
    		 	# boucle pour envoyer le message à tous les clients
         		for client in clients:
        		 		client.sendall(a.encode())
-
-
-
-
-
-
